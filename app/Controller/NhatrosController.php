@@ -26,6 +26,16 @@ class NhatrosController extends AppController {
 	}
 
 /**
+ * index method
+ *
+ * @return void
+ */
+	public function api_index() {
+		$list = $this->Nhatro->find('all');
+		$this->set('nhatros', $list );
+	}
+
+/**
  * view method
  *
  * @throws NotFoundException
@@ -33,6 +43,21 @@ class NhatrosController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+		if (!$this->Nhatro->exists($id)) {
+			throw new NotFoundException(__('Invalid nhatro'));
+		}
+		$options = array('conditions' => array('Nhatro.' . $this->Nhatro->primaryKey => $id));
+		$this->set('nhatro', $this->Nhatro->find('first', $options));
+	}
+
+/**
+ * view method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function api_view($id = null) {
 		if (!$this->Nhatro->exists($id)) {
 			throw new NotFoundException(__('Invalid nhatro'));
 		}
