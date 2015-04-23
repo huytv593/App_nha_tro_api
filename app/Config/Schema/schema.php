@@ -58,8 +58,8 @@ class AppSchema extends CakeSchema
         'encrypted_password' => array('type' => 'string', 'null' => false),
         'salt' => array('type' => 'string', 'null' => false),
         'group' => array('type' => 'integer', 'default' => 2, 'comment' => 'group of admin'),
-        'created_at' => array('type' => 'datetime'),
-        'updated_at' => array('type' => 'datetime'),
+        'created_at' => array('type' => 'date'),
+        'updated_at' => array('type' => 'date'),
         'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci')
     );
 
@@ -77,9 +77,9 @@ class AppSchema extends CakeSchema
     public $nhatros = array(
     	'id' => array('type' => 'biginteger', 'null' => false, 'default' => '0', 'length' => 20, 'key' => 'primary', 'unsigned' => true, 'autoIncrement' => true),
     	'title' => array('type' => 'string', 'null' => false),
-    	'created_by' => array('type' => 'biginteger', 'null' => false, 'default' => '1', 'length' => 20, 'unsigned' => true),
-    	'created_at' => array('type' => 'datetime'),
-        'end_at' => array('type' => 'datetime'),
+    	'created_by' => array('type' => 'string', 'null' => false, 'length' => 23, 'unique' => true),
+    	'created_at' => array('type' => 'date'),
+        'end_at' => array('type' => 'date'),
         'price' => array('type' => 'integer', 'default' => '0', 'unique' => true),
         'city' => array('type' => 'string', 'null' => false, 'unique' => true),
         'district' => array('type' => 'string', 'null' => false, 'unique' => true),
@@ -92,6 +92,8 @@ class AppSchema extends CakeSchema
         'imgb' => array('type' => 'string'),
         'imgc' => array('type' => 'string'),
         'imgd' => array('type' => 'string'),
+        'long' => array('type' => 'string'),
+        'lat' => array('type' => 'string'),
         'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci')
 	);
 }
