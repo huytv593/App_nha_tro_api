@@ -25,6 +25,35 @@ class NhatrosController extends AppController {
 		$this->set('nhatros', $this->Paginator->paginate());
 	}
 
+	public function find() {
+		$this->autoRender = $this->autoLayout = false;
+		if ($this->request->is('post')){
+			//debug($this->request->data);die();
+			$city = $this->request->data['city'];
+			$district = $this->request->data['district'];
+			$precinct = $this->request->data['precinct'];
+			$street = $this->request->data['street'];
+			$areaf = $this->request->data['minSquare'];
+			$areat = $this->request->data['maxSquare'];
+			$pricef = $this->request->data['minPrice'];
+			$pricet = $this->request->data['maxPrice'];
+			$response = array();
+			$conditions = array();
+			if($city != null) $conditions['city'] = $city;
+			if($district != null) $conditions['district'] = $district;
+			if($precinct != null) $conditions['precinct'] = $precinct;
+			if($street != null) $conditions['street'] = $street;
+			if($areaf != null) $conditions['area >='] = $areaf;
+			if($areat != null) $conditions['area <='] = $areat;
+			if($pricef != null) $conditions['price >='] = $pricef;
+			if($pricet != null) $conditions['price <='] = $pricet;
+			$param['conditions'] = $conditions; 
+			//debug($param);die();
+			$response = $this->Nhatro->find('all', $param);
+		echo json_encode($response,  JSON_UNESCAPED_UNICODE);
+		}
+	}
+
 /**
  * view method
  *

@@ -21,8 +21,8 @@ class UsersController extends AppController {
  * @return void
  */
 	public function login() {
+		$this->autoRender = $this->autoLayout = false;
 		if ($this->request->is('post')){
-			//var_dump($this->request->data);
 			$response = array();
 			$email = $this->request->data['email'];
 			$password = $this->request->data['password'];
@@ -41,15 +41,13 @@ class UsersController extends AppController {
 		            $response["user"]["updated_at"] = $result["updated_at"];
 	        	} else {
 		            $response["error"] = TRUE;
-		            $response["error_msg"] = "Incorrect email or password!";
+		            $response["error_msg"] = "Email hoặc mật khẩu không đúng!";
 		        }
 	        } else {
 	            $response["error"] = TRUE;
-	            $response["error_msg"] = "Incorrect email or password!";
-	        
+	            $response["error_msg"] = "Email hoặc mật khẩu không đúng!";
 			}
-			// debug($response);
-			$this->set('response', $response);
+			echo json_encode($response,  JSON_UNESCAPED_UNICODE);
 		}
 	}
 /**
@@ -58,6 +56,7 @@ class UsersController extends AppController {
 * @return void
 */
 	public function register() {
+		$this->autoRender = $this->autoLayout = false;
 		if ($this->request->is('post')){
 			$response = array();
 			$name = $this->request->data['name'];
@@ -66,19 +65,19 @@ class UsersController extends AppController {
 			$result = $this->User->findAllByEmail($email);
 			if(!empty($result)) {
 				$response["error"] = TRUE;
-	            $response["error_msg"] = "User already existed";
+	            $response["error_msg"] = "Người dùng đã tồn tại";
 			} else {
 				$uuid = uniqid('', true);
 		        $hash = $this->hashSSHA($password);
-		        $encrypted_password = $hash["encrypted"]; // encrypted password
-		        $salt = $hash["salt"]; // salt
+		        $encrypted_password = $hash["encrypted"];
+		        $salt = $hash["salt"];
 				$this->User->create();
 				if($this->User->saveAll( array(
-                    	'unique_id' => $uuid,
-                        'name' => $name,
-                        'email' => $email,
-                        'encrypted_password' => $encrypted_password,
-                        'salt' => $salt
+                	'unique_id' => $uuid,
+                    'name' => $name,
+                    'email' => $email,
+                    'encrypted_password' => $encrypted_password,
+                    'salt' => $salt
                 ))) {
 					$response["error"] = FALSE;
 		            $response["uid"] = $uuid;
@@ -88,11 +87,10 @@ class UsersController extends AppController {
 		            // $response["user"]["updated_at"] = $result["updated_at"];
                 } else {
 					$response["error"] = TRUE;
-	            	$response["error_msg"] = "Error occured in Registartion!";
+	            	$response["error_msg"] = "Xảy ra lỗi khi đăng kí!";
 				}
 			}
-			// debug($response);
-			$this->set('response', $response);
+			echo json_encode($response,  JSON_UNESCAPED_UNICODE);
 		}
 	}
 

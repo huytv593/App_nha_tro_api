@@ -60,17 +60,20 @@ class ApiNhatrosController extends AppController {
 			$areat = $this->request->data['areat'];
 			$pricef = $this->request->data['pricef'];
 			$pricet = $this->request->data['pricet'];
-			$result = $this->Nhatro->find('all', 'conditions' => array(
+			$conditions = array(
 				'AND' => array(
 					'city' => $city,
 					'district' => $district,
 					'precinct' => $precinct,
 					'street' => $street,
-					'area' => $area,
-					'price' => $price
+					'Nhatro.area > ' => $areaf,
+					'Nhatro.area < ' => $areat,
+					'Nhatro.price > ' => $pricef,
+					'Nhatro.price < ' => $pricet
 				)
-			));
-
+			);
+			$result = $this->Nhatro->find('all', $conditions);
+			debug($result); die();
 			if(!empty($result)) {
 				$result = $result[0]['User'];
 				$salt = $result['salt'];
