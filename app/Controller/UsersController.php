@@ -38,7 +38,7 @@ class UsersController extends AppController {
 		            $response["user"]["name"] = $result["name"];
 		            $response["user"]["email"] = $result["email"];
 		            $response["user"]["created_at"] = $result["created_at"];
-		            $response["user"]["updated_at"] = $result["updated_at"];
+		            //$response["user"]["updated_at"] = $result["updated_at"];
 	        	} else {
 		            $response["error"] = TRUE;
 		            $response["error_msg"] = "Email hoặc mật khẩu không đúng!";
