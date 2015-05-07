@@ -25,32 +25,47 @@ class NhatrosController extends AppController {
 		$this->set('nhatros', $this->Paginator->paginate());
 	}
 
-	public function find() {
+	public function api_find() {
 		$this->autoRender = $this->autoLayout = false;
-		if ($this->request->is('post')){
-			//debug($this->request->data);die();
-			$city = $this->request->data['city'];
-			$district = $this->request->data['district'];
-			$precinct = $this->request->data['precinct'];
-			$street = $this->request->data['street'];
-			$areaf = $this->request->data['minSquare'];
-			$areat = $this->request->data['maxSquare'];
-			$pricef = $this->request->data['minPrice'];
-			$pricet = $this->request->data['maxPrice'];
-			$response = array();
-			$conditions = array();
-			if($city != null) $conditions['city'] = $city;
-			if($district != null) $conditions['district'] = $district;
-			if($precinct != null) $conditions['precinct'] = $precinct;
-			if($street != null) $conditions['street'] = $street;
-			if($areaf != null) $conditions['area >='] = $areaf;
-			if($areat != null) $conditions['area <='] = $areat;
-			if($pricef != null) $conditions['price >='] = $pricef;
-			if($pricet != null) $conditions['price <='] = $pricet;
-			$param['conditions'] = $conditions; 
-			//debug($param);die();
-			$response = $this->Nhatro->find('all', $param);
-		echo json_encode($response,  JSON_UNESCAPED_UNICODE);
+        if ($this->request->is('post')){
+//            print_r($this->request->data);
+            $conditions =array();
+            $response = array();
+            $responseA = array();
+
+            $city = $this->request->data['city'];
+            $district = $this->request->data['district'];
+            $precinct = $this->request->data['precinct'];
+            $street = $this->request->data['street'];
+            $areaf = $this->request->data['areaf'];
+            $areat = $this->request->data['areat'];
+            $pricef = $this->request->data['pricef'];
+            $pricet = $this->request->data['pricet'];
+
+            if($city) $conditions['Nhatro.city'] = $city;
+            if($district) $conditions['Nhatro.district'] = $district;
+            if($precinct) $conditions['Nhatro.precinct'] = $precinct;
+            if($street) $conditions['Nhatro.street'] = $street;
+            if($areaf) $conditions['Nhatro.area >='] = $areaf;
+            if($areat) $conditions['Nhatro.area <='] = $areat;
+            if($pricef) $conditions['Nhatro.price >='] = $pricef;
+            if($pricet) $conditions['Nhatro.price <='] = $pricet;
+
+
+            $result = $this->Nhatro->find('all', array(
+                'conditions' => array(
+                    'AND' => $conditions
+                )
+            ));
+//            debug($result);
+            foreach($result as $key => $value){
+                foreach($value as $subKey => $subValue) {
+                    $response[$key] = $subValue;
+                }
+            }
+            $responseA['Nhatro'] = $response;
+//           debug($responseA);
+		echo json_encode($responseA,  JSON_UNESCAPED_UNICODE);
 		}
 	}
 
