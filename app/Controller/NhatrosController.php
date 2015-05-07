@@ -37,10 +37,10 @@ class NhatrosController extends AppController {
             $district = $this->request->data['district'];
             $precinct = $this->request->data['precinct'];
             $street = $this->request->data['street'];
-            $areaf = $this->request->data['areaf'];
-            $areat = $this->request->data['areat'];
-            $pricef = $this->request->data['pricef'];
-            $pricet = $this->request->data['pricet'];
+            $areaf = $this->request->data['minSquare'];
+            $areat = $this->request->data['maxSquare'];
+            $pricef = $this->request->data['minPrice'];
+            $pricet = $this->request->data['maxPrice'];
 
             if($city) $conditions['Nhatro.city'] = $city;
             if($district) $conditions['Nhatro.district'] = $district;
