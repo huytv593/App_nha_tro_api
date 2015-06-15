@@ -1,5 +1,5 @@
 <div class="nhatros form">
-<?php echo $this->Form->create('Nhatro'); ?>
+<?php echo $this->Form->create('Nhatro',  array('url' => array('action' => 'add'), 'enctype' => 'multipart/form-data')); ?>
 	<fieldset>
 		<legend><?php echo __('Add Nhatro'); ?></legend>
 	<?php
@@ -15,10 +15,10 @@
 		echo $this->Form->input('address');
 		echo $this->Form->input('area');
 		echo $this->Form->input('info');
-		echo $this->Form->input('imga');
-		echo $this->Form->input('imgb');
-		echo $this->Form->input('imgc');
-		echo $this->Form->input('imgd');
+		echo $this->Form->input('imguploada', array('type' => 'file'));
+		echo $this->Form->input('imgb', array('type' => 'file'));
+		echo $this->Form->input('imgc', array('type' => 'file'));
+		echo $this->Form->input('imgd', array('type' => 'file'));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
